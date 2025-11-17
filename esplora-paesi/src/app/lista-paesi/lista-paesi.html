@@ -1,0 +1,36 @@
+<!-- src/app/lista-paesi/lista-paesi.html -->
+<div class="row mb-3">
+  <div class="col-md-6">
+    <input class="form-control" type="text" placeholder="Cerca paese..." [(ngModel)]="query" (ngModelChange)="onCerca()" />
+  </div>
+  <div class="col-md-4">
+    <select class="form-select" (change)="onSelezionaRegione($any($event.target).value)">
+      <option value="">Tutte le regioni</option>
+      <option value="Africa">Africa</option>
+      <option value="Americas">Americhe</option>
+      <option value="Asia">Asia</option>
+      <option value="Europe">Europa</option>
+      <option value="Oceania">Oceania</option>
+      <option value="Antarctic">Antartide</option>
+    </select>
+  </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-3">
+  <div class="col" *ngFor="let p of getPaginaCorrente()">
+    <div class="card h-100">
+      <img [src]="p.flags?.png || p.flags?.svg" class="card-img-top" alt="Bandiera di {{p.name.common}}">
+      <div class="card-body">
+        <h5 class="card-title"><a [routerLink]="['/dettaglio-paese', p.cca3]">{{p.name.common}}</a></h5>
+        <p class="card-text">Capitale: {{p.capital?.[0] || '—'}}</p>
+        <p class="card-text">Popolazione: {{p.population | number}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mt-3">
+  <button class="btn btn-secondary" (click)="pagina = Math.max(1, pagina-1)">Prev</button>
+  <div>Pagina {{pagina}}</div>
+  <button class="btn btn-secondary" (click)="pagina = pagina+1">Next</button>
+</div>
