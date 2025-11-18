@@ -23,13 +23,21 @@ export class DettaglioPaese implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const code = this.route.snapshot.paramMap.get('code');
+    // 🔥 Ascolta ogni cambiamento del parametro :code
+    this.route.paramMap.subscribe(params => {
+      const code = params.get('code');
 
-    if (!code) {
-      this.router.navigate(['/lista-paesi']);
-      return;
-    }
+      if (!code) {
+        this.router.navigate(['/lista-paesi']);
+        return;
+      }
 
+      this.caricaPaese(code);
+    });
+  }
+
+  // 🔥 Carica i dati del paese
+  caricaPaese(code: string) {
     this.paesiService.getPaeseByCode(code).subscribe({
       next: (res: any) => {
         this.paese = Array.isArray(res) ? res[0] : res;
@@ -63,6 +71,7 @@ export class DettaglioPaese implements OnInit {
     return this.paese?.timezones || [];
   }
 
+  // 🔥 Naviga al paese confinante
   vaiAlConfine(code: string) {
     this.router.navigate(['/dettaglio-paese', code]);
   }

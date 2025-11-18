@@ -1,12 +1,12 @@
 import { Component, signal, computed } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
-  imports: [RouterOutlet, RouterLink, RouterLinkActive]   // ❗ computed NON va qui
+  imports: [RouterOutlet]   // ❗ computed NON va qui
 })
 export class App {
 

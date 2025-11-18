@@ -198,6 +198,7 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;          /* ★ AGGIUNTO PER FIX CLICK */
 }
 
 .country-card:hover {
@@ -212,7 +213,7 @@
   overflow: hidden;
   background: #f3f4f6;
   border-bottom: 1px solid #e5e7eb;
-  position: relative; /* per posizionare la stellina */
+  position: relative;
 }
 
 .flag-box img {
@@ -230,6 +231,8 @@
 /* STELLINA PREFERITI */
 .fav-btn {
   position: absolute;
+  z-index: 10;                /* ★ NECESSARIO PER RICEVERE IL CLICK */
+  pointer-events: auto;       /* ★ ASSICURA CHE IL CLICK ARRIVI */
   top: 8px;
   right: 8px;
   width: 26px;
