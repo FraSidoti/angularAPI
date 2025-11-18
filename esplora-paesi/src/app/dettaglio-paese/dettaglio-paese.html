@@ -1,44 +1,126 @@
 <section class="detail-page">
-  
   <!-- BACK BUTTON -->
   <button class="back-btn" routerLink="/lista-paesi">
     ← Torna alla lista
   </button>
 
-  <!-- SEZIONE PRINCIPALE -->
-  <div *ngIf="paese" class="detail-container">
+  <!-- CONTENUTO -->
+  <div *ngIf="paese" class="detail-card">
 
-    <!-- BANDIERA (NORMALE, NON GIGANTE) -->
-    <div class="detail-flag">
-      <img [src]="paese.flags?.png" [alt]="paese.name?.common + ' bandiera'" />
-    </div>
-
-    <!-- INFORMAZIONI -->
-    <div class="detail-info">
-
-      <h1>{{ paese.name?.common }}</h1>
-      <p class="subtitle">{{ paese.name?.official }}</p>
-
-      <div class="detail-grid">
-
-        <div>
-          <p><strong>Capitale:</strong> {{ paese.capital?.[0] || 'N.D.' }}</p>
-          <p><strong>Regione:</strong> {{ paese.region }}</p>
-          <p><strong>Subregione:</strong> {{ paese.subregion || '—' }}</p>
-          <p><strong>Popolazione:</strong> {{ paese.population | number:'1.0-0' }}</p>
-        </div>
-
-        <div>
-          <p><strong>Continente:</strong> {{ paese.continents?.[0] }}</p>
-          <p><strong>Fuso orario:</strong> {{ paese.timezones?.[0] }}</p>
-          <p><strong>Lingue:</strong> {{ paese.languages | json }}</p>
-        </div>
-
+    <!-- HEADER: bandiera + titolo -->
+    <div class="detail-header">
+      <div class="flag-wrapper">
+        <img [src]="paese.flags?.png" [alt]="paese.name?.common + ' flag'" />
       </div>
 
+      <div class="title-block">
+        <h1>{{ paese.name?.common }}</h1>
+        <p class="official-name">{{ paese.name?.official }}</p>
+
+        <div class="chips">
+          <span class="chip" *ngIf="paese.region">{{ paese.region }}</span>
+          <span class="chip muted" *ngIf="paese.subregion">
+            {{ paese.subregion }}
+          </span>
+          <span class="chip outlined" *ngIf="paese.cca3">
+            Codice: {{ paese.cca3 }}
+          </span>
+        </div>
+      </div>
     </div>
+
+    <!-- SEZIONI DETTAGLIO -->
+    <div class="detail-sections">
+
+      <!-- DATI GENERALI -->
+      <section class="detail-section">
+        <h2>Dati generali</h2>
+        <dl>
+          <div>
+            <dt>Capitale</dt>
+            <dd>{{ paese.capital?.[0] || 'N.D.' }}</dd>
+          </div>
+          <div>
+            <dt>Popolazione</dt>
+            <dd>{{ paese.population | number:'1.0-0' }}</dd>
+          </div>
+          <div>
+            <dt>Continente</dt>
+            <dd>{{ paese.continents?.[0] }}</dd>
+          </div>
+          <div>
+            <dt>Area</dt>
+            <dd *ngIf="paese.area; else noArea">
+              {{ paese.area | number:'1.0-0' }} km²
+            </dd>
+            <ng-template #noArea>N.D.</ng-template>
+          </div>
+        </dl>
+      </section>
+
+      <!-- POSIZIONE -->
+      <section class="detail-section">
+        <h2>Posizione & orari</h2>
+        <dl>
+          <div>
+            <dt>Regione</dt>
+            <dd>{{ paese.region }}</dd>
+          </div>
+          <div>
+            <dt>Subregione</dt>
+            <dd>{{ paese.subregion || '—' }}</dd>
+          </div>
+          <div>
+            <dt>Fusi orari</dt>
+            <dd>
+              <span class="tag" *ngFor="let tz of timezones">
+                {{ tz }}
+              </span>
+              <span class="tag muted" *ngIf="!timezones.length">
+                N.D.
+              </span>
+            </dd>
+          </div>
+          <div *ngIf="paese.latlng?.length === 2">
+            <dt>Coordinate</dt>
+            <dd>{{ paese.latlng[0] }}°, {{ paese.latlng[1] }}°</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- LINGUE E VALUTE -->
+      <section class="detail-section">
+        <h2>Lingue & valute</h2>
+
+        <h3>Lingue ufficiali</h3>
+        <div class="tags">
+          <span class="tag" *ngFor="let l of lingue">{{ l }}</span>
+          <span class="tag muted" *ngIf="!lingue.length">Nessuna informazione</span>
+        </div>
+
+        <h3>Valute</h3>
+        <div class="tags">
+          <span class="tag" *ngFor="let v of valute">{{ v }}</span>
+          <span class="tag muted" *ngIf="!valute.length">Nessuna informazione</span>
+        </div>
+      </section>
+    </div>
+
+    <!-- PAESI CONFINANTI -->
+    <section *ngIf="paese.borders?.length" class="borders-section">
+      <h2>Paesi confinanti</h2>
+      <div class="borders-grid">
+        <button
+          class="border-chip"
+          *ngFor="let b of paese.borders"
+          (click)="vaiAlConfine(b)"
+        >
+          {{ b }}
+        </button>
+      </div>
+    </section>
+
   </div>
 
-  <p *ngIf="!paese">Caricamento…</p>
-
+  <p *ngIf="!paese" class="loading">Caricamento informazioni…</p>
 </section>

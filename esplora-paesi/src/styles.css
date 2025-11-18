@@ -79,3 +79,12 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
+.countries,
+.countries-grid,
+.country-card,
+.page,
+.shell,
+.main {
+  background-image: none !important;
+  background: none !important;
+}

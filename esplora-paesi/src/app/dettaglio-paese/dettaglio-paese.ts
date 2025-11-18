@@ -1,3 +1,4 @@
+// src/app/dettaglio-paese/dettaglio-paese.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -24,26 +25,45 @@ export class DettaglioPaese implements OnInit {
   ngOnInit(): void {
     const code = this.route.snapshot.paramMap.get('code');
 
-    console.log("CODICE RICEVUTO:", code); // <--- DEBUG IMPORTANTE
-
     if (!code) {
-      console.error("NESSUN CODICE TROVATO");
-      this.router.navigate(['/paesi']);
+      this.router.navigate(['/lista-paesi']);
       return;
     }
 
     this.paesiService.getPaeseByCode(code).subscribe({
       next: (res: any) => {
-        console.log("RISPOSTA API:", res);
         this.paese = Array.isArray(res) ? res[0] : res;
       },
       error: (err: any) => {
-        console.error("ERRORE API:", err);
+        console.error('Errore caricamento paese:', err);
+        this.router.navigate(['/lista-paesi']);
       }
     });
   }
 
+  // 👉 Lingue come lista leggibile
+  get lingue(): string[] {
+    if (!this.paese?.languages) return [];
+    return Object.values(this.paese.languages) as string[];
+  }
+
+  // 👉 Valute come "Euro (EUR, €)"
+  get valute(): string[] {
+    if (!this.paese?.currencies) return [];
+    const entries = Object.entries(this.paese.currencies) as [string, any][];
+    return entries.map(([code, info]) => {
+      const name = info?.name || code;
+      const symbol = info?.symbol ? ` ${info.symbol}` : '';
+      return `${name} (${code}${symbol})`;
+    });
+  }
+
+  // 👉 Fusi orari
+  get timezones(): string[] {
+    return this.paese?.timezones || [];
+  }
+
   vaiAlConfine(code: string) {
-    this.router.navigate(['/paese', code]);
+    this.router.navigate(['/dettaglio-paese', code]);
   }
 }

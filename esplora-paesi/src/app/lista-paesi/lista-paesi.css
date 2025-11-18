@@ -49,7 +49,7 @@
 
 .field {
   flex: 1;
-  min-width: 240px;
+  min-width: 220px;
   display: flex;
   flex-direction: column;
 }
@@ -67,13 +67,55 @@
   border-radius: 10px;
   border: 1px solid #d1d5db;
   font-size: 14px;
+  background: #ffffff;
 }
 
-.filters-actions {
-  margin-top: 12px;
+/* Riga sotto filtri: preferiti + bottoni */
+.filters-footer {
+  margin-top: 14px;
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Mostra solo preferiti */
+.fav-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.fav-toggle input {
+  display: none;
+}
+
+.fav-toggle .fake-check {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+}
+
+.fav-toggle input:checked + .fake-check {
+  background: #facc15;
+  border-color: #eab308;
+}
+
+.fav-toggle .star-icon {
+  font-size: 14px;
+  color: #facc15;
+}
+
+/* Bottoni Filtra / Reset */
+.filters-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .filters-actions button {
@@ -121,12 +163,29 @@
 .info-icon {
   font-size: 24px;
 }
+
+/* ----- LISTA PAESI ----- */
+.countries {
+  margin-top: 8px;
+}
+
+.countries-header h2 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.countries-header p {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0 0 10px;
+}
+
 /* GRIGLIA DELLE BANDIERE */
 .countries-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 18px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* CARD DEL PAESE */
@@ -138,12 +197,12 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  transition: .15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .country-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 /* BOX BANDIERA */
@@ -153,6 +212,7 @@
   overflow: hidden;
   background: #f3f4f6;
   border-bottom: 1px solid #e5e7eb;
+  position: relative; /* per posizionare la stellina */
 }
 
 .flag-box img {
@@ -160,42 +220,55 @@
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-/* INFO PAESE */
-.country-info {
-  padding: 12px 14px;
-}
-
-.country-info h3 {
-  margin: 0 0 4px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.region {
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 6px;
-}
-
-.capital,
-.population {
-  font-size: 13px;
-}
-.country-card {
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-
-.country-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-}
-
-.flag-box img {
-  transition: transform .2s ease;
+  transition: transform 0.2s ease;
 }
 
 .country-card:hover img {
   transform: scale(1.06);
+}
+
+/* STELLINA PREFERITI */
+.fav-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(15, 23, 42, 0.7);
+  color: #e5e7eb;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.fav-btn:hover {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.fav-btn.active {
+  background: #facc15;
+  color: #92400e;
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .filters-row {
+    flex-direction: column;
+  }
+
+  .filters-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filters-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
