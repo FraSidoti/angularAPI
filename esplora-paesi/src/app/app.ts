@@ -1,12 +1,34 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, signal, computed } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive]   // ❗ computed NON va qui
 })
 export class App {
-  protected readonly title = signal('esplora-paesi');
+
+  // Titolo come Signal
+  readonly title = signal('Esplora Paesi');
+
+  // Filtri come Signal
+  filtroNome = signal('');
+  filtroRegione = signal('');
+
+  // Computed Signal (dipende dai due filtri)
+  readonly filtri = computed(() => ({
+    nome: this.filtroNome(),
+    regione: this.filtroRegione()
+  }));
+
+  applicaFiltri() {
+    console.log('Filtri applicati:', this.filtri());
+  }
+
+  resetFiltri() {
+    this.filtroNome.set('');
+    this.filtroRegione.set('');
+  }
 }

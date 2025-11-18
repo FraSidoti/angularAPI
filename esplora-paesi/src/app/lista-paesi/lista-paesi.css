@@ -1,307 +1,201 @@
-/* app.component.css - NAVBAR E STILI GLOBALI MODERNI */
-
-:root {
-  --primary-color: #2563eb;
-  --primary-dark: #1e40af;
-  --primary-light: #3b82f6;
-  --secondary-color: #64748b;
-  --background: #f8fafc;
-  --card-background: #ffffff;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --border-radius: 12px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ----- SEZIONE PAGINA ----- */
+.page {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px 22px 26px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  margin-bottom: 26px;
 }
 
-* {
+/* ----- HERO ----- */
+.page-hero {
+  margin-bottom: 22px;
+}
+
+.page-badge {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0ea5e9;
+  margin-bottom: 5px;
+}
+
+.page-hero h1 {
+  font-size: 32px;
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  font-size: 15px;
+  color: #4b5563;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to bottom, #f8fafc 0%, #e2e8f0 100%);
-  color: var(--text-primary);
-  line-height: 1.6;
-  overflow-x: hidden;
-  min-height: 100vh;
+/* ----- FILTRI ----- */
+.filters {
+  margin-bottom: 24px;
+  padding: 18px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
 }
 
-/* Navbar moderna con effetti premium */
-nav {
-  background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
-  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.3);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  padding: 1.25rem 0;
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.filters-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-nav::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.5) 50%, 
-    transparent 100%);
-  animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-/* Brand logo con effetto glow */
-.navbar-brand {
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: white !important;
-  letter-spacing: -0.5px;
-  transition: var(--transition);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  position: relative;
-  padding: 0.5rem 1rem;
-  border-radius: 12px;
-}
-
-.navbar-brand::before {
-  content: '🌍';
-  margin-right: 0.5rem;
-  font-size: 1.5rem;
-  display: inline-block;
-  animation: rotate 10s linear infinite;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.navbar-brand:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
-}
-
-/* Link navigazione con animazioni */
-.nav-link {
-  color: rgba(255, 255, 255, 0.9) !important;
-  font-weight: 600;
-  padding: 0.75rem 1.25rem !important;
-  border-radius: 10px;
-  transition: var(--transition);
-  margin: 0 0.25rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.nav-link::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: left 0.3s ease;
-}
-
-.nav-link:hover::before {
-  left: 100%;
-}
-
-.nav-link:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: white !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.navbar-toggler {
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  padding: 0.5rem 0.75rem;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  transition: var(--transition);
-}
-
-.navbar-toggler:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: white;
-}
-
-.navbar-toggler:focus {
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
-}
-
-/* Container principale con animazione */
-.container {
-  max-width: 1400px;
-  padding: 2rem 1rem;
-  margin: 0 auto;
-  animation: fadeInUp 0.6s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Scrollbar personalizzata elegante */
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
-  border-radius: 10px;
-  border: 2px solid #f1f5f9;
-  transition: var(--transition);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
-}
-
-/* Animazioni globali */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Loading state con spinner elegante */
-.loading {
-  text-align: center;
-  padding: 4rem;
-  color: var(--text-secondary);
-  font-size: 1.2rem;
-  animation: fadeIn 0.5s ease-out;
+.field {
+  flex: 1;
+  min-width: 240px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
 }
 
-.loading::before {
-  content: '';
-  width: 50px;
-  height: 50px;
-  border: 4px solid #e2e8f0;
-  border-top-color: var(--primary-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.field label {
+  font-size: 13px;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: #374151;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.field input,
+.field select {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
 }
 
-/* Effetto parallasse per background */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
+.filters-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.filters-actions button {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  background: #111827;
+  color: #f9fafb;
+}
+
+.filters-actions .ghost {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+/* ----- INFO GRID ----- */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.info-card {
+  background: #f9fafb;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+}
+
+.info-card h2 {
+  font-size: 18px;
+  margin: 6px 0;
+}
+
+.info-card p {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0;
+}
+
+.info-icon {
+  font-size: 24px;
+}
+/* GRIGLIA DELLE BANDIERE */
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+/* CARD DEL PAESE */
+.country-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: .15s ease;
+}
+
+.country-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+}
+
+/* BOX BANDIERA */
+.flag-box {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.flag-box img {
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: -1;
+  object-fit: cover;
+  display: block;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem 0.75rem;
-  }
-
-  .navbar-brand {
-    font-size: 1.5rem;
-  }
-  
-  .navbar-brand::before {
-    font-size: 1.25rem;
-  }
-  
-  nav {
-    padding: 1rem 0;
-  }
-
-  .nav-link {
-    margin: 0.25rem 0;
-  }
+/* INFO PAESE */
+.country-info {
+  padding: 12px 14px;
 }
 
-/* Accessibilità */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+.country-info h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.region {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.capital,
+.population {
+  font-size: 13px;
+}
+.country-card {
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.country-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.flag-box img {
+  transition: transform .2s ease;
+}
+
+.country-card:hover img {
+  transform: scale(1.06);
 }

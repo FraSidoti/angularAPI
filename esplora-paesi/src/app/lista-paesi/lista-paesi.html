@@ -1,36 +1,109 @@
-<!-- src/app/lista-paesi/lista-paesi.html -->
-<div class="row mb-3">
-  <div class="col-md-6">
-    <input class="form-control" type="text" placeholder="Cerca paese..." [(ngModel)]="query" (ngModelChange)="onCerca()" />
-  </div>
-  <div class="col-md-4">
-    <select class="form-select" (change)="onSelezionaRegione($any($event.target).value)">
-      <option value="">Tutte le regioni</option>
-      <option value="Africa">Africa</option>
-      <option value="Americas">Americhe</option>
-      <option value="Asia">Asia</option>
-      <option value="Europe">Europa</option>
-      <option value="Oceania">Oceania</option>
-      <option value="Antarctic">Antartide</option>
-    </select>
-  </div>
-</div>
+<section class="page">
 
-<div class="row row-cols-1 row-cols-md-3 g-3">
-  <div class="col" *ngFor="let p of getPaginaCorrente()">
-    <div class="card h-100">
-      <img [src]="p.flags?.png || p.flags?.svg" class="card-img-top" alt="Bandiera di {{p.name.common}}">
-      <div class="card-body">
-        <h5 class="card-title"><a [routerLink]="['/dettaglio-paese', p.cca3]">{{p.name.common}}</a></h5>
-        <p class="card-text">Capitale: {{p.capital?.[0] || '—'}}</p>
-        <p class="card-text">Popolazione: {{p.population | number}}</p>
+  <!-- HERO -->
+  <header class="page-hero">
+    <p class="page-badge">Esplora il mondo</p>
+    <h1>Tutti i Paesi</h1>
+    <p class="page-subtitle">
+      Cerca un paese, filtra per regione e apri la scheda dettagliata con
+      capitale, popolazione, lingue e bandiera.
+    </p>
+  </header>
+
+  <!-- FILTRI -->
+  <section class="filters">
+    <div class="filters-row">
+      
+      <!-- NOME -->
+      <div class="field">
+        <label for="search">Cerca Paese</label>
+        <input
+          id="search"
+          type="text"
+          placeholder="Es. Italy, Spain, Brazil..."
+          [(ngModel)]="filtroNome"
+        />
+      </div>
+
+      <!-- REGIONE -->
+      <div class="field">
+        <label for="region">Regione</label>
+        <select id="region" [(ngModel)]="filtroRegione">
+          <option value="">Tutte le regioni</option>
+          <option *ngFor="let r of regioni" [value]="r">{{ r }}</option>
+        </select>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="d-flex justify-content-between align-items-center mt-3">
-  <button class="btn btn-secondary" (click)="pagina = Math.max(1, pagina-1)">Prev</button>
-  <div>Pagina {{pagina}}</div>
-  <button class="btn btn-secondary" (click)="pagina = pagina+1">Next</button>
-</div>
+    <!-- BUTTONS -->
+    <div class="filters-actions">
+      <button type="button" (click)="applicaFiltri()">Filtra</button>
+      <button type="button" class="ghost" (click)="resetFiltri()">Reset</button>
+    </div>
+  </section>
+
+  <!-- INFO BOX -->
+  <section class="info-grid">
+    <article class="info-card">
+      <div class="info-icon">🌐</div>
+      <h2>Database Completo</h2>
+      <p>Oltre 250 paesi e territori con informazioni aggiornate.</p>
+    </article>
+
+    <article class="info-card">
+      <div class="info-icon">🚩</div>
+      <h2>Bandiere in HD</h2>
+      <p>Bandiere in alta qualità perfette per i display moderni.</p>
+    </article>
+
+    <article class="info-card">
+      <div class="info-icon">📊</div>
+      <h2>Dati Demografici</h2>
+      <p>Popolazione, capitale, lingue e altre info utili.</p>
+    </article>
+  </section>
+
+  <!-- LISTA PAESI -->
+  <section class="countries">
+    <header class="countries-header">
+      <h2>Risultati</h2>
+
+      <p *ngIf="paesiFiltrati?.length">
+        {{ paesiFiltrati.length }} paesi trovati
+      </p>
+
+      <p *ngIf="!paesiFiltrati?.length">
+        Nessun paese trovato con i filtri selezionati.
+      </p>
+    </header>
+
+    <!-- GRID -->
+    <div class="countries-grid" *ngIf="paesiFiltrati?.length">
+
+      <article
+        class="country-card"
+        *ngFor="let p of paesiFiltrati"
+        [routerLink]="['/paese', p.cca3]"
+      >
+        
+        <!-- BANDIERA -->
+        <div class="flag-box">
+          <img [src]="p.flags?.png" [alt]="p.name?.common" />
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+</section>
+<article
+  class="country-card"
+  *ngFor="let p of paesiFiltrati"
+  [routerLink]="['/dettaglio-paese', p.cca3]"
+>
+  <div class="flag-box">
+    <img [src]="p.flags?.png" [alt]="p.name?.common" />
+  </div>
+</article>

@@ -10,25 +10,27 @@ export class PaesiService {
 
   private base = 'https://restcountries.com/v3.1';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  // tutti i paesi
-  getAll(): Observable<any> {
-    return this.http.get(`${this.base}/all`);
+  // ✔ Metodo usato in lista-paesi.ts
+  getPaesi(): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.base}/all?fields=name,cca3,region,subregion,capital,population,flags,languages,timezones`
+    );
   }
 
-  // ricerca per nome (GET /name/{name})
-  searchByName(name: string): Observable<any> {
-    return this.http.get(`${this.base}/name/${encodeURIComponent(name)}`);
+  // ✔ Per pagina dettagli paese
+  getPaeseByCode(code: string): Observable<any> {
+    return this.http.get<any>(`${this.base}/alpha/${encodeURIComponent(code)}`);
   }
 
-  // per regione (GET /region/{region})
-  getByRegion(region: string): Observable<any> {
-    return this.http.get(`${this.base}/region/${encodeURIComponent(region)}`);
+  // ✔ Utile se in futuro fai ricerca diretta
+  searchByName(name: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/name/${encodeURIComponent(name)}`);
   }
 
-  // dettaglio per codice ISO (GET /alpha/{code})
-  getByCode(code: string): Observable<any> {
-    return this.http.get(`${this.base}/alpha/${encodeURIComponent(code)}`);
+  // ✔ Utile per filtrare lato API (optional)
+  getByRegion(region: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.base}/region/${encodeURIComponent(region)}`);
   }
 }

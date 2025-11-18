@@ -1,24 +1,44 @@
-<!-- src/app/pagina2/pagina2.component.html -->
-<div *ngIf="paese">
-  <a routerLink="/pagina1" class="btn btn-link">← Torna</a>
-  <h1>{{paese.name.common}} <small class="text-muted">({{paese.name.official}})</small></h1>
-  <img [src]="paese.flags?.svg || paese.flags?.png" alt="Bandiera" class="img-fluid mb-3" style="max-width:320px;" />
+<section class="detail-page">
+  
+  <!-- BACK BUTTON -->
+  <button class="back-btn" routerLink="/lista-paesi">
+    ← Torna alla lista
+  </button>
 
-  <ul class="list-group">
-    <li class="list-group-item">Capitale: {{paese.capital?.[0] || '—'}}</li>
-    <li class="list-group-item">Regione: {{paese.region}} / {{paese.subregion}}</li>
-    <li class="list-group-item">Popolazione: {{paese.population | number}}</li>
-    <li class="list-group-item">Area: {{paese.area ? (paese.area | number) + ' km²' : '—'}}</li>
-    <li class="list-group-item">Densità: {{paese.population && paese.area ? (paese.population/paese.area | number:'1.0-1') + ' ab/km²' : '—'}}</li>
-    <li class="list-group-item">Lingue: {{paese.languages ? (Object.values(paese.languages).join(', ')) : '—'}}</li>
-    <li class="list-group-item">Valute: {{paese.currencies ? (Object.keys(paese.currencies).join(', ')) : '—'}}</li>
-    <li class="list-group-item">Fusi orari: {{paese.timezones?.join(', ')}}</li>
-  </ul>
+  <!-- SEZIONE PRINCIPALE -->
+  <div *ngIf="paese" class="detail-container">
 
-  <div *ngIf="paese.borders?.length" class="mt-3">
-    <h5>Paesi confinanti</h5>
-    <div class="d-flex flex-wrap">
-      <button class="btn btn-outline-primary btn-sm me-2 mb-2" *ngFor="let b of paese.borders" (click)="vaiAlConfine(b)">{{b}}</button>
+    <!-- BANDIERA (NORMALE, NON GIGANTE) -->
+    <div class="detail-flag">
+      <img [src]="paese.flags?.png" [alt]="paese.name?.common + ' bandiera'" />
+    </div>
+
+    <!-- INFORMAZIONI -->
+    <div class="detail-info">
+
+      <h1>{{ paese.name?.common }}</h1>
+      <p class="subtitle">{{ paese.name?.official }}</p>
+
+      <div class="detail-grid">
+
+        <div>
+          <p><strong>Capitale:</strong> {{ paese.capital?.[0] || 'N.D.' }}</p>
+          <p><strong>Regione:</strong> {{ paese.region }}</p>
+          <p><strong>Subregione:</strong> {{ paese.subregion || '—' }}</p>
+          <p><strong>Popolazione:</strong> {{ paese.population | number:'1.0-0' }}</p>
+        </div>
+
+        <div>
+          <p><strong>Continente:</strong> {{ paese.continents?.[0] }}</p>
+          <p><strong>Fuso orario:</strong> {{ paese.timezones?.[0] }}</p>
+          <p><strong>Lingue:</strong> {{ paese.languages | json }}</p>
+        </div>
+
+      </div>
+
     </div>
   </div>
-</div>
+
+  <p *ngIf="!paese">Caricamento…</p>
+
+</section>

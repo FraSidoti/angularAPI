@@ -1,67 +1,53 @@
-// src/app/lista-paesi/lista-paesi.ts
 import { Component, OnInit } from '@angular/core';
-import { PaesiService } from '../services/paesi-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { PaesiService } from '../services/paesi-service';
 
 @Component({
-  selector: 'app-lista-paesi',
-  imports: [CommonModule, FormsModule, RouterModule],
+  selector: 'lista-paesi',
+  standalone: true,
   templateUrl: './lista-paesi.html',
-  styleUrls: ['./lista-paesi.css']
+  styleUrls: ['./lista-paesi.css'],
+  imports: [CommonModule, FormsModule, RouterLink]
 })
 export class ListaPaesi implements OnInit {
-  paesi: any[] = [];
-  filtrati: any[] = [];
-  query = '';
-  regione = '';
-  pagina = 1;
-  perPagina = 24;
-  Math = Math; // Expose Math to template
 
-  constructor(private paesiService: PaesiService) { }
+  paesi: any[] = [];
+  paesiFiltrati: any[] = [];
+
+  filtroNome: string = '';
+  filtroRegione: string = '';
+
+  regioni: string[] = [
+    "Africa", "Americas", "Asia", "Europe", "Oceania"
+  ];
+
+  constructor(private service: PaesiService) {}
 
   ngOnInit(): void {
-    this.caricaTutti();
-  }
-
-  caricaTutti() {
-    this.paesiService.getAll().subscribe(res => {
-      this.paesi = res.sort((a: any,b: any) => (a.name.common > b.name.common ? 1 : -1));
-      this.applicaFiltri();
-    });
-  }
-
-  onCerca() {
-    if (!this.query) { this.applicaFiltri(); return; }
-    this.paesiService.searchByName(this.query).subscribe(res => {
-      this.filtrati = res;
-      this.pagina = 1;
-    }, err => {
-      this.filtrati = [];
-    });
-  }
-
-  onSelezionaRegione(r: string) {
-    this.regione = r;
-    if (!r) { this.caricaTutti(); return; }
-    this.paesiService.getByRegion(r).subscribe(res => {
-      this.paesi = res.sort((a: any,b: any) => (a.name.common > b.name.common ? 1 : -1));
-      this.applicaFiltri();
-    }, err => {
-      this.paesi = [];
-      this.filtrati = [];
+    this.service.getPaesi().subscribe((data: any[]) => {
+      this.paesi = data;
+      this.paesiFiltrati = data;
     });
   }
 
   applicaFiltri() {
-    this.filtrati = this.paesi;
-    this.pagina = 1;
+    this.paesiFiltrati = this.paesi.filter(p => {
+
+      const matchNome = this.filtroNome.trim().length === 0 ||
+        p.name.common.toLowerCase().includes(this.filtroNome.toLowerCase());
+
+      const matchRegione = this.filtroRegione.trim().length === 0 ||
+        p.region === this.filtroRegione;
+
+      return matchNome && matchRegione;
+    });
   }
 
-  getPaginaCorrente(): any[] {
-    const start = (this.pagina - 1) * this.perPagina;
-    return this.filtrati.slice(start, start + this.perPagina);
+  resetFiltri() {
+    this.filtroNome = '';
+    this.filtroRegione = '';
+    this.paesiFiltrati = [...this.paesi];
   }
 }
